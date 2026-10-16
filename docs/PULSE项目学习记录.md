@@ -693,7 +693,7 @@ Caddy 对 Caddyfile 有固定格式要求。
 解决：
 
 ```powershell
-docker run --rm -v "D:\CodexSpace\PHP Performance Lab\pulse\docker\caddy:/etc/caddy" caddy:2.8-alpine caddy fmt --overwrite /etc/caddy/Caddyfile
+docker run --rm -v "D:\CodexSpace\pulse-design\pulse\docker\caddy:/etc/caddy" caddy:2.8-alpine caddy fmt --overwrite /etc/caddy/Caddyfile
 ```
 
 经验：
@@ -737,6 +737,42 @@ docker compose up -d --build
 
 - 前端体验要和后端规则一致。
 - 后端仍然是最终规则来源。
+
+### 问题 16：项目根目录重命名被占用
+
+现象：
+
+```text
+Rename-Item: The process cannot access the file because it is being used by another process.
+```
+
+原因：
+
+旧目录 `D:\CodexSpace\PHP Performance Lab` 被 Docker Desktop 文件共享或其他进程占用，Windows 不允许直接重命名正在使用的目录。
+
+解决：
+
+1. 先停止 PULSE 的 Docker Compose 容器。
+2. 创建新目录 `D:\CodexSpace\pulse-design`。
+3. 把旧目录内的 `.git`、`design-refs`、`docs`、`pulse` 等内容迁移到新目录。
+4. 重新从新目录启动 Docker Compose。
+
+结果：
+
+```text
+项目新路径：D:\CodexSpace\pulse-design
+应用路径：D:\CodexSpace\pulse-design\pulse
+```
+
+说明：
+
+Windows 可能仍然保留一个空的旧目录外壳 `D:\CodexSpace\PHP Performance Lab`，等 Docker Desktop 文件共享释放后可以删除。它不再是项目路径，所有项目文件和 Git 仓库都已迁移到 `pulse-design`。
+
+经验：
+
+- Windows 上被进程占用的目录不能直接重命名。
+- 如果目录只是被文件共享占用，可以迁移内容到新目录，避免停止其他容器。
+- 迁移完成后要检查 Git 状态、Docker 文件和文档中的绝对路径。
 
 ## 六、验证记录
 
@@ -871,7 +907,7 @@ master -> origin/master
 常用命令：
 
 ```powershell
-cd "D:\CodexSpace\PHP Performance Lab"
+cd "D:\CodexSpace\pulse-design"
 
 git status
 git add -A
@@ -977,7 +1013,7 @@ PHP 负责让它活着，MySQL 负责让它记得，Worker 负责让它持续呼
 启动：
 
 ```powershell
-cd "D:\CodexSpace\PHP Performance Lab\pulse"
+cd "D:\CodexSpace\pulse-design\pulse"
 docker compose up -d --build
 ```
 

@@ -51,7 +51,7 @@ pulse/
 第一次运行：
 
 ```powershell
-cd "D:\CodexSpace\PHP Performance Lab\pulse"
+cd "D:\CodexSpace\pulse-design\pulse"
 Copy-Item .env.example .env
 cd frontend
 npm install
