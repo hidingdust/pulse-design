@@ -1,0 +1,5 @@
+.chrome-*
+.idea/
+.vscode/
+*.log
+

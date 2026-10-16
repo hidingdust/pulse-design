@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <defs>
+    <linearGradient id="bgA" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#eefcff"/>
+      <stop offset="0.55" stop-color="#e8fbf2"/>
+      <stop offset="1" stop-color="#fff1f6"/>
+    </linearGradient>
+    <radialGradient id="petA" cx="50%" cy="38%" r="70%">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.45" stop-color="#c7f5ef"/>
+      <stop offset="1" stop-color="#7fd7d0"/>
+    </radialGradient>
+    <filter id="softA" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+    <filter id="shadowA" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#6bb8b2" flood-opacity="0.22"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="800" fill="url(#bgA)"/>
+  <circle cx="170" cy="120" r="120" fill="#bfe9ff" opacity="0.45" filter="url(#softA)"/>
+  <circle cx="1050" cy="690" r="150" fill="#ffd8e7" opacity="0.5" filter="url(#softA)"/>
+
+  <rect x="54" y="54" width="1092" height="110" rx="30" fill="#ffffff" opacity="0.72" filter="url(#shadowA)"/>
+  <text x="92" y="106" font-family="Arial, sans-serif" font-size="25" font-weight="800" fill="#31565c">PULSE / HEALING MODE</text>
+  <text x="92" y="137" font-family="Consolas, monospace" font-size="15" fill="#6f8f93">COZY HABITAT 01  ·  DAY 128  ·  ALL SYSTEMS CALM</text>
+  <circle cx="1070" cy="109" r="17" fill="#7dd3c7"/>
+  <text x="1102" y="115" font-family="Consolas, monospace" font-size="14" fill="#5d7f82">LIVE</text>
+
+  <rect x="54" y="196" width="280" height="500" rx="30" fill="#ffffff" opacity="0.8" filter="url(#shadowA)"/>
+  <text x="88" y="245" font-family="Arial, sans-serif" font-size="17" font-weight="800" fill="#527477">VITALS</text>
+  <rect x="88" y="280" width="212" height="84" rx="22" fill="#f2fffd"/>
+  <text x="108" y="315" font-family="Consolas, monospace" font-size="13" fill="#7a999b">MOOD</text>
+  <text x="108" y="347" font-family="Arial, sans-serif" font-size="30" font-weight="900" fill="#45b8ad">86</text>
+  <rect x="88" y="382" width="212" height="84" rx="22" fill="#fff6fa"/>
+  <text x="108" y="417" font-family="Consolas, monospace" font-size="13" fill="#a17c89">ENERGY</text>
+  <text x="108" y="449" font-family="Arial, sans-serif" font-size="30" font-weight="900" fill="#ff8fa8">72</text>
+  <rect x="88" y="484" width="212" height="84" rx="22" fill="#f5f8ff"/>
+  <text x="108" y="519" font-family="Consolas, monospace" font-size="13" fill="#7d8ca6">TRUST</text>
+  <text x="108" y="551" font-family="Arial, sans-serif" font-size="30" font-weight="900" fill="#78a6e8">91</text>
+  <text x="88" y="620" font-family="Arial, sans-serif" font-size="15" fill="#638184">Last fed 8 min ago</text>
+  <text x="88" y="646" font-family="Arial, sans-serif" font-size="15" fill="#638184">Server load is gentle</text>
+
+  <g filter="url(#shadowA)">
+    <ellipse cx="600" cy="460" rx="178" ry="152" fill="url(#petA)"/>
+    <ellipse cx="540" cy="430" rx="24" ry="31" fill="#27383e"/>
+    <ellipse cx="660" cy="430" rx="24" ry="31" fill="#27383e"/>
+    <circle cx="548" cy="421" r="8" fill="#ffffff" opacity="0.82"/>
+    <circle cx="668" cy="421" r="8" fill="#ffffff" opacity="0.82"/>
+    <path d="M562 494 Q600 528 638 494" fill="none" stroke="#27383e" stroke-width="8" stroke-linecap="round"/>
+    <ellipse cx="512" cy="489" rx="25" ry="15" fill="#ff9fb2" opacity="0.52"/>
+    <ellipse cx="688" cy="489" rx="25" ry="15" fill="#ff9fb2" opacity="0.52"/>
+    <path d="M492 342 Q448 290 418 334 Q452 346 492 342" fill="#aee8de"/>
+    <path d="M708 342 Q752 290 782 334 Q748 346 708 342" fill="#aee8de"/>
+    <path d="M482 570 Q438 610 474 648 Q506 618 518 584" fill="#aee8de"/>
+    <path d="M718 570 Q762 610 726 648 Q694 618 682 584" fill="#aee8de"/>
+  </g>
+
+  <g fill="#ff9fb2" opacity="0.75">
+    <path d="M400 230 C400 210 424 210 424 230 C424 248 400 262 400 262 C400 262 376 248 376 230 C376 210 400 210 400 230Z"/>
+    <path d="M814 552 C814 536 834 536 834 552 C834 567 814 578 814 578 C814 578 794 567 794 552 C794 536 814 536 814 552Z"/>
+  </g>
+  <circle cx="820" cy="278" r="9" fill="#78a6e8" opacity="0.7"/>
+  <circle cx="378" cy="562" r="12" fill="#7dd3c7" opacity="0.65"/>
+
+  <rect x="866" y="196" width="280" height="500" rx="30" fill="#ffffff" opacity="0.8" filter="url(#shadowA)"/>
+  <text x="900" y="245" font-family="Arial, sans-serif" font-size="17" font-weight="800" fill="#527477">CARE ACTIONS</text>
+  <g font-family="Arial, sans-serif" font-size="17" font-weight="800">
+    <rect x="900" y="282" width="212" height="68" rx="22" fill="#dff8f4"/>
+    <text x="1006" y="324" text-anchor="middle" fill="#328c84">Feed</text>
+    <rect x="900" y="372" width="212" height="68" rx="22" fill="#e7f4ff"/>
+    <text x="1006" y="414" text-anchor="middle" fill="#4d82bd">Play</text>
+    <rect x="900" y="462" width="212" height="68" rx="22" fill="#fff0f5"/>
+    <text x="1006" y="504" text-anchor="middle" fill="#c76d82">Rest</text>
+    <rect x="900" y="552" width="212" height="68" rx="22" fill="#f2f5ff"/>
+    <text x="1006" y="594" text-anchor="middle" fill="#6f7fb8">Soothe</text>
+  </g>
+  <text x="900" y="664" font-family="Consolas, monospace" font-size="13" fill="#7a999b">Global caretakers online: 12</text>
+
+  <text x="600" y="738" text-anchor="middle" font-family="Consolas, monospace" font-size="14" fill="#6f8f93">A / HEALING CUTE  ·  soft, safe, affectionate, low-stakes</text>
+</svg>

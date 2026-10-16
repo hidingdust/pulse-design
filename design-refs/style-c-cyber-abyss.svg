@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <defs>
+    <linearGradient id="bgC" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#02030a"/>
+      <stop offset="0.5" stop-color="#061735"/>
+      <stop offset="1" stop-color="#02050d"/>
+    </linearGradient>
+    <radialGradient id="petC" cx="50%" cy="35%" r="70%">
+      <stop offset="0" stop-color="#eaffff"/>
+      <stop offset="0.35" stop-color="#56f2ff"/>
+      <stop offset="0.72" stop-color="#7a5cff"/>
+      <stop offset="1" stop-color="#ff3ea5" stop-opacity="0.25"/>
+    </radialGradient>
+    <filter id="glowC" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="14" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="softC" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="22"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="800" fill="url(#bgC)"/>
+  <circle cx="180" cy="180" r="180" fill="#3cf2ff" opacity="0.13" filter="url(#softC)"/>
+  <circle cx="1020" cy="620" r="220" fill="#ff3ea5" opacity="0.12" filter="url(#softC)"/>
+
+  <g opacity="0.5" fill="#9eefff">
+    <circle cx="120" cy="300" r="3"/>
+    <circle cx="250" cy="120" r="4"/>
+    <circle cx="360" cy="680" r="3"/>
+    <circle cx="840" cy="120" r="4"/>
+    <circle cx="1080" cy="300" r="3"/>
+    <circle cx="930" cy="710" r="4"/>
+    <circle cx="560" cy="90" r="2"/>
+    <circle cx="700" cy="720" r="2"/>
+  </g>
+
+  <rect x="54" y="54" width="1092" height="110" rx="6" fill="#061020" opacity="0.8" stroke="#3cf2ff" stroke-opacity="0.35"/>
+  <text x="92" y="106" font-family="Consolas, monospace" font-size="25" font-weight="800" fill="#dffcff">PULSE / ABYSS NODE</text>
+  <text x="92" y="137" font-family="Consolas, monospace" font-size="15" fill="#6faec5">DEPTH -3840  ·  BIOLUMINESCENT LINK STABLE  ·  SIGNAL FROM THE DEEP</text>
+  <circle cx="1070" cy="109" r="17" fill="#3cf2ff" filter="url(#glowC)"/>
+  <text x="1096" y="115" font-family="Consolas, monospace" font-size="14" fill="#9eefff">SYNC</text>
+
+  <circle cx="600" cy="422" r="250" fill="none" stroke="#3cf2ff" stroke-width="2" opacity="0.16"/>
+  <circle cx="600" cy="422" r="190" fill="none" stroke="#3cf2ff" stroke-width="2" opacity="0.22"/>
+  <circle cx="600" cy="422" r="132" fill="none" stroke="#3cf2ff" stroke-width="2" opacity="0.3"/>
+  <path d="M600 150 V694" stroke="#3cf2ff" stroke-opacity="0.14"/>
+  <path d="M328 422 H872" stroke="#3cf2ff" stroke-opacity="0.14"/>
+
+  <g filter="url(#glowC)">
+    <ellipse cx="600" cy="390" rx="138" ry="146" fill="url(#petC)" opacity="0.95"/>
+    <ellipse cx="600" cy="388" rx="88" ry="94" fill="#eaffff" opacity="0.2"/>
+    <path d="M510 486 Q470 570 432 650" fill="none" stroke="#56f2ff" stroke-width="8" stroke-linecap="round" opacity="0.72"/>
+    <path d="M550 500 Q530 610 500 704" fill="none" stroke="#7a5cff" stroke-width="7" stroke-linecap="round" opacity="0.72"/>
+    <path d="M600 510 Q600 620 600 720" fill="none" stroke="#3cf2ff" stroke-width="7" stroke-linecap="round" opacity="0.78"/>
+    <path d="M650 500 Q670 610 700 704" fill="none" stroke="#ff3ea5" stroke-width="7" stroke-linecap="round" opacity="0.72"/>
+    <path d="M690 486 Q730 570 768 650" fill="none" stroke="#56f2ff" stroke-width="8" stroke-linecap="round" opacity="0.72"/>
+    <ellipse cx="548" cy="372" rx="19" ry="28" fill="#03101e"/>
+    <ellipse cx="652" cy="372" rx="19" ry="28" fill="#03101e"/>
+    <circle cx="548" cy="372" r="7" fill="#3cf2ff"/>
+    <circle cx="652" cy="372" r="7" fill="#ff3ea5"/>
+    <path d="M548 446 Q600 474 652 446" fill="none" stroke="#03101e" stroke-width="7" stroke-linecap="round"/>
+  </g>
+
+  <rect x="54" y="196" width="280" height="500" rx="6" fill="#061020" opacity="0.82" stroke="#3cf2ff" stroke-opacity="0.28"/>
+  <text x="88" y="245" font-family="Consolas, monospace" font-size="17" font-weight="800" fill="#9eefff">DEEP VITALS</text>
+  <text x="88" y="292" font-family="Consolas, monospace" font-size="13" fill="#6faec5">SIGNAL</text>
+  <text x="88" y="332" font-family="Arial, sans-serif" font-size="36" font-weight="900" fill="#3cf2ff">91%</text>
+  <rect x="88" y="352" width="212" height="14" fill="#0b2034"/>
+  <rect x="88" y="352" width="193" height="14" fill="#3cf2ff"/>
+  <text x="88" y="410" font-family="Consolas, monospace" font-size="13" fill="#6faec5">PRESSURE</text>
+  <text x="88" y="450" font-family="Arial, sans-serif" font-size="36" font-weight="900" fill="#ff3ea5">67%</text>
+  <rect x="88" y="470" width="212" height="14" fill="#0b2034"/>
+  <rect x="88" y="470" width="142" height="14" fill="#ff3ea5"/>
+  <text x="88" y="528" font-family="Consolas, monospace" font-size="13" fill="#6faec5">CURIOSITY</text>
+  <text x="88" y="568" font-family="Arial, sans-serif" font-size="36" font-weight="900" fill="#b6ff4a">84%</text>
+  <rect x="88" y="588" width="212" height="14" fill="#0b2034"/>
+  <rect x="88" y="588" width="178" height="14" fill="#b6ff4a"/>
+  <text x="88" y="646" font-family="Consolas, monospace" font-size="13" fill="#6faec5">Sonar activity: rising</text>
+
+  <rect x="866" y="196" width="280" height="500" rx="6" fill="#061020" opacity="0.82" stroke="#3cf2ff" stroke-opacity="0.28"/>
+  <text x="900" y="245" font-family="Consolas, monospace" font-size="17" font-weight="800" fill="#9eefff">DEEP CONTROL</text>
+  <g font-family="Consolas, monospace" font-size="17" font-weight="800">
+    <rect x="900" y="282" width="212" height="68" rx="4" fill="#09243a" stroke="#3cf2ff" stroke-opacity="0.6"/>
+    <text x="1006" y="324" text-anchor="middle" fill="#dffcff">FEED</text>
+    <rect x="900" y="372" width="212" height="68" rx="4" fill="#1d1130" stroke="#7a5cff" stroke-opacity="0.7"/>
+    <text x="1006" y="414" text-anchor="middle" fill="#cfc2ff">PING</text>
+    <rect x="900" y="462" width="212" height="68" rx="4" fill="#2b1024" stroke="#ff3ea5" stroke-opacity="0.7"/>
+    <text x="1006" y="504" text-anchor="middle" fill="#ff9ed5">PULSE</text>
+    <rect x="900" y="552" width="212" height="68" rx="4" fill="#122818" stroke="#b6ff4a" stroke-opacity="0.65"/>
+    <text x="1006" y="594" text-anchor="middle" fill="#d7ff9a">SOOTHE</text>
+  </g>
+  <text x="900" y="664" font-family="Consolas, monospace" font-size="13" fill="#6faec5">Connected divers: 12</text>
+
+  <text x="600" y="738" text-anchor="middle" font-family="Consolas, monospace" font-size="14" fill="#6faec5">C / CYBER ABYSS  ·  immense, bioluminescent, oceanic, signal-driven</text>
+</svg>

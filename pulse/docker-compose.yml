@@ -1,0 +1,92 @@
+services:
+  caddy:
+    image: caddy:2.8-alpine
+    ports:
+      - "${HTTP_PORT:-8080}:80"
+      - "${HTTPS_PORT:-8443}:443"
+    environment:
+      SITE_ADDRESS: "${SITE_ADDRESS:-:80}"
+    volumes:
+      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./public:/srv/public:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - php
+    restart: unless-stopped
+
+  php:
+    image: pulse-php:latest
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    environment:
+      APP_ENV: "${APP_ENV:-local}"
+      APP_URL: "${APP_URL:-http://localhost:8080}"
+      DB_HOST: mysql
+      DB_PORT: "3306"
+      DB_NAME: "${DB_NAME:-pulse}"
+      DB_USER: "${DB_USER:-pulse}"
+      DB_PASSWORD: "${DB_PASSWORD:-pulse_dev_only}"
+      DEMO_TOKEN: "${DEMO_TOKEN:-pulse_demo_token}"
+      PULSE_METRIC_MODE: "${PULSE_METRIC_MODE:-auto}"
+    volumes:
+      - ./:/srv
+      - ./storage:/srv/storage
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: unless-stopped
+
+  worker:
+    image: pulse-php:latest
+    command: ["php", "/srv/worker/pulse-worker.php"]
+    environment:
+      APP_ENV: "${APP_ENV:-local}"
+      APP_URL: "${APP_URL:-http://localhost:8080}"
+      DB_HOST: mysql
+      DB_PORT: "3306"
+      DB_NAME: "${DB_NAME:-pulse}"
+      DB_USER: "${DB_USER:-pulse}"
+      DB_PASSWORD: "${DB_PASSWORD:-pulse_dev_only}"
+      DEMO_TOKEN: "${DEMO_TOKEN:-pulse_demo_token}"
+      PULSE_METRIC_MODE: "${PULSE_METRIC_MODE:-auto}"
+    volumes:
+      - ./:/srv
+      - ./storage:/srv/storage
+    depends_on:
+      php:
+        condition: service_started
+      mysql:
+        condition: service_healthy
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8.0
+    command:
+      - "--character-set-server=utf8mb4"
+      - "--collation-server=utf8mb4_unicode_ci"
+      - "--default-time-zone=+08:00"
+      - "--innodb-buffer-pool-size=256M"
+      - "--max-connections=100"
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD:-root_dev_only}"
+      MYSQL_DATABASE: "${DB_NAME:-pulse}"
+      MYSQL_USER: "${DB_USER:-pulse}"
+      MYSQL_PASSWORD: "${DB_PASSWORD:-pulse_dev_only}"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./database/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$${MYSQL_ROOT_PASSWORD} --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+  caddy_data:
+  caddy_config:
+
