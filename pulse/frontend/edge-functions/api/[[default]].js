@@ -26,8 +26,9 @@ export default async function onRequest(context) {
   responseHeaders.delete('content-encoding');
   responseHeaders.delete('content-length');
   responseHeaders.set('Access-Control-Allow-Origin', '*');
+  const responseBody = await response.arrayBuffer();
 
-  return new Response(response.body, {
+  return new Response(responseBody, {
     status: response.status,
     statusText: response.statusText,
     headers: responseHeaders,
