@@ -237,30 +237,30 @@ input:focus-visible {
 }
 
 .vitals {
-  top: 144px;
+  top: 130px;
   left: 24px;
   width: 248px;
-  padding: 18px;
+  padding: 14px;
 }
 
 .vital-row {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  margin-top: 14px;
+  margin-top: 10px;
   color: var(--muted);
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .vital-row strong {
   color: var(--ink);
   font-family: "IBM Plex Mono", Consolas, monospace;
-  font-size: 24px;
+  font-size: 22px;
 }
 
 .meter {
-  height: 8px;
-  margin-top: 6px;
+  height: 7px;
+  margin-top: 4px;
   overflow: hidden;
   border-radius: 8px;
   background: rgba(49, 86, 92, 0.08);
@@ -280,9 +280,9 @@ input:focus-visible {
 }
 
 .hint {
-  margin: 16px 0 0;
+  margin: 10px 0 0;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 11px;
   line-height: 1.6;
 }
 
@@ -328,19 +328,19 @@ input:focus-visible {
 }
 
 .actions {
-  top: 144px;
+  top: 130px;
   right: 24px;
   width: 248px;
-  padding: 18px;
+  padding: 14px;
 }
 
 .action-button {
   width: 100%;
-  min-height: 52px;
+  min-height: 48px;
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-top: 10px;
+  margin-top: 8px;
   padding: 0 14px;
   font-weight: 800;
   text-align: left;
@@ -475,7 +475,7 @@ input:focus-visible {
   position: fixed;
   z-index: 10;
   right: 24px;
-  top: 204px;
+  top: 190px;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -489,7 +489,7 @@ input:focus-visible {
   position: fixed;
   z-index: 10;
   right: 128px;
-  top: 204px;
+  top: 190px;
   display: inline-flex;
   align-items: center;
   gap: 8px;
