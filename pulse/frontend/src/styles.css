@@ -284,6 +284,33 @@ input:focus-visible {
   line-height: 1.6;
 }
 
+.server-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 10px;
+  margin: 16px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.server-metrics div {
+  min-width: 0;
+}
+
+.server-metrics dt {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.server-metrics dd {
+  margin: 2px 0 0;
+  color: var(--ink);
+  font-family: "IBM Plex Mono", Consolas, monospace;
+  font-size: 14px;
+  font-weight: 700;
+}
+
 .actions {
   top: 112px;
   right: 24px;
@@ -397,6 +424,35 @@ input:focus-visible {
   min-height: 130px;
   color: var(--muted);
   font-size: 12px;
+}
+
+.chart-legend {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.chart-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.legend-dot-mood {
+  background: var(--pink);
+}
+
+.legend-dot-energy {
+  background: var(--mint);
 }
 
 .report-toggle {

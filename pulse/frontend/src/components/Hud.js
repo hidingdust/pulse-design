@@ -24,6 +24,12 @@ export class Hud {
     this.eventCount = document.querySelector('#event-count');
     this.eventsList = document.querySelector('#events-list');
     this.vitalHint = document.querySelector('#vital-hint');
+    this.cpuMetricValue = document.querySelector('#cpu-metric-value');
+    this.memoryMetricValue = document.querySelector('#memory-metric-value');
+    this.diskMetricValue = document.querySelector('#disk-metric-value');
+    this.onlineMetricValue = document.querySelector('#online-metric-value');
+    this.sourceMetricValue = document.querySelector('#source-metric-value');
+    this.metricTimeValue = document.querySelector('#metric-time-value');
     this.cooldownHint = document.querySelector('#cooldown-hint');
     this.timelineChart = document.querySelector('#timeline-chart');
     this.toast = document.querySelector('#toast');
@@ -48,7 +54,23 @@ export class Hud {
     this.eventCount.textContent = `${events.length} 条`;
     this.vitalHint.textContent = hintForStatus(state.status, metrics);
 
+    this.renderServerMetrics(snapshot, metrics);
+
     this.renderEvents(events);
+  }
+
+  renderServerMetrics(snapshot, metrics) {
+    const cpu = Number(metrics?.cpu_load);
+    const memory = Number(metrics?.memory_used_pct);
+    const disk = Number(metrics?.disk_used_pct);
+    const created = String(metrics?.created_at || '');
+
+    this.cpuMetricValue.textContent = Number.isFinite(cpu) ? cpu.toFixed(2) : '--';
+    this.memoryMetricValue.textContent = Number.isFinite(memory) ? `${memory.toFixed(1)}%` : '--';
+    this.diskMetricValue.textContent = Number.isFinite(disk) ? `${disk.toFixed(1)}%` : '--';
+    this.onlineMetricValue.textContent = `${snapshot?.online_count ?? 0} 人`;
+    this.sourceMetricValue.textContent = metrics?.source === 'demo' ? '演示数据' : '实时数据';
+    this.metricTimeValue.textContent = created ? created.slice(11, 19) : '--:--:--';
   }
 
   renderTimeline(points) {

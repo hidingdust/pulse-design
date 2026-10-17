@@ -56,6 +56,33 @@
         </div>
         <div class="meter"><i id="trust-bar"></i></div>
         <p id="vital-hint" class="hint">它正在感受这台服务器的呼吸。</p>
+
+        <dl class="server-metrics" aria-label="服务器指标">
+          <div>
+            <dt title="Linux 1 分钟平均负载，约等于正在使用或等待 CPU 的任务数">CPU 负载</dt>
+            <dd id="cpu-metric-value">--</dd>
+          </div>
+          <div>
+            <dt title="当前内存使用量占服务器总内存的百分比">内存占用</dt>
+            <dd id="memory-metric-value">--</dd>
+          </div>
+          <div>
+            <dt title="当前磁盘使用量占服务器总磁盘的百分比">磁盘占用</dt>
+            <dd id="disk-metric-value">--</dd>
+          </div>
+          <div>
+            <dt title="最近 2 分钟内访问过的匿名访客数">在线访客</dt>
+            <dd id="online-metric-value">--</dd>
+          </div>
+          <div>
+            <dt title="当前展示的是服务器真实指标还是演示模式">数据来源</dt>
+            <dd id="source-metric-value">--</dd>
+          </div>
+          <div>
+            <dt title="最近一次 Worker 心跳采样的时间">采样时间</dt>
+            <dd id="metric-time-value">--</dd>
+          </div>
+        </dl>
       </aside>
 
       <aside class="panel actions">
@@ -116,6 +143,10 @@
           <span>过去 24 小时</span>
         </div>
         <div id="timeline-chart" class="timeline-chart"></div>
+        <div class="chart-legend" aria-label="时间轴图例">
+          <span><i class="legend-dot legend-dot-mood"></i>心情</span>
+          <span><i class="legend-dot legend-dot-energy"></i>能量</span>
+        </div>
       </section>
 
       <button id="report-toggle" class="report-toggle" type="button">
