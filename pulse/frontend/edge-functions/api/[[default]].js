@@ -8,6 +8,7 @@ export default async function onRequest(context) {
 
   headers.set('Host', 'api-pulse.nobeladam.cn');
   headers.set('X-Forwarded-Proto', 'https');
+  headers.set('Accept-Encoding', 'identity');
   headers.delete('content-length');
 
   const body = ['GET', 'HEAD'].includes(request.method)
