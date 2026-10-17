@@ -35,6 +35,63 @@ body {
     linear-gradient(135deg, #fffdf9 0%, #eefcff 48%, #fff1f6 100%);
 }
 
+.brand-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(255, 248, 242, 0.96);
+  color: var(--ink);
+  text-align: center;
+  pointer-events: none;
+  animation: brand-splash 2.2s ease forwards;
+}
+
+.brand-splash-inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-splash-mark {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--mint);
+  box-shadow: 0 0 0 8px rgba(125, 211, 199, 0.18);
+}
+
+.brand-splash-text {
+  font-family: "Baloo 2", "Trebuchet MS", sans-serif;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+@keyframes brand-splash {
+  0% {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+
+  12% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  72% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
 button,
 input {
   font: inherit;
@@ -566,6 +623,15 @@ input:focus-visible {
 @media (max-width: 900px) {
   body {
     overflow: auto;
+  }
+
+  .brand-splash-inner {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .brand-splash-text {
+    font-size: 20px;
   }
 
   .scene {

@@ -1088,6 +1088,306 @@ PHP 负责让它活着，MySQL 负责让它记得，Worker 负责让它持续呼
 4. 安全加固。
 5. 自动化部署。
 
+## 十三、线上部署实录（2026-10-17）
+
+### 1. 部署目标
+
+最终部署到一台独立的腾讯云轻量服务器：
+
+- 实例名：`pulse-design`
+- 实例 ID：`lhins-e6o2pz8j`
+- 公网 IP：`43.161.218.87`
+- 地域：中国香港
+- 系统：Ubuntu 24.04
+- 规格：2 核 2 GB、40 GB 磁盘
+- 域名：`pulse.nobeladam.cn`
+
+这次没有复用旧的 `sunset-hunter` 服务器，也没有修改旧服务器上的 Caddy。
+
+### 2. SSH 密钥可以重复使用
+
+SSH 密钥不是绑定某一台服务器的。
+
+本机有两个相关文件：
+
+- 私钥：`C:\Users\Administrator\.ssh\pulse_deploy`
+- 公钥：`C:\Users\Administrator\.ssh\pulse_deploy.pub`
+
+同一个公钥可以安装到多台服务器。新服务器只需要信任这个公钥，本机就能用同一个私钥登录。
+
+实际做法：
+
+1. 通过腾讯云网页终端登录新服务器。
+2. 创建 `~/.ssh` 目录。
+3. 把本机公钥追加到 `~/.ssh/authorized_keys`。
+4. 之后使用本机私钥登录。
+
+公钥可以公开，私钥绝对不能上传、发送或提交到仓库。
+
+### 3. 本机直连失败与 SSH 跳板
+
+现象：
+
+- 本机 ping 新服务器失败。
+- 本机连接 `43.161.218.87:22` 超时。
+- 旧服务器连接新服务器 22 端口成功。
+
+结论：
+
+问题出在本机到新 IP 的网络路径，而不是服务器或防火墙。
+
+解决方案：
+
+把旧服务器当作跳板，把新服务器的 22 端口转发到本机：
+
+```powershell
+ssh -i C:\Users\Administrator\.ssh\pulse_deploy -N -L 22022:43.161.218.87:22 ubuntu@43.135.4.67
+```
+
+之后通过本机 `127.0.0.1:22022` 访问新服务器：
+
+```powershell
+ssh -i C:\Users\Administrator\.ssh\pulse_deploy -p 22022 ubuntu@127.0.0.1
+```
+
+概念：
+
+- `-L 22022:目标主机:22` 表示把本机 22022 端口转发到目标主机的 22 端口。
+- 旧服务器在这里只负责转发网络流量，不会保存或读取本机私钥。
+
+### 4. 安装 Docker
+
+新服务器初始没有 Docker。使用 Ubuntu 软件源安装：
+
+```bash
+sudo apt-get update
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -y docker.io docker-compose-v2
+```
+
+安装完成后：
+
+- `docker` 是容器引擎。
+- `docker compose` 是编排工具。
+
+普通用户默认不能直接使用 Docker，因此后续管理命令都使用 `sudo docker`。
+
+### 5. 上传项目到服务器
+
+为了不把本机 `node_modules` 和截图素材上传，先把项目打包：
+
+```powershell
+tar.exe -czf pulse-deploy.tar.gz --exclude=pulse/frontend/node_modules --exclude=pulse/artifacts pulse
+```
+
+再通过跳板端口上传：
+
+```powershell
+scp -P 22022 -i C:\Users\Administrator\.ssh\pulse_deploy pulse-deploy.tar.gz ubuntu@127.0.0.1:/tmp/
+```
+
+最后解压到目标目录：
+
+```bash
+sudo mkdir -p /opt/pulse
+sudo tar -xzf /tmp/pulse-deploy.tar.gz -C /opt/pulse --strip-components=1
+```
+
+服务器最终项目目录：
+
+```text
+/opt/pulse
+```
+
+### 6. 生产环境变量与随机密码
+
+生产环境不能使用仓库里的示例密码。
+
+在服务器上用 `openssl rand -hex` 生成随机值，写入：
+
+```text
+/opt/pulse/.env
+```
+
+重要配置：
+
+```text
+SITE_ADDRESS=pulse.nobeladam.cn
+HTTP_PORT=80
+HTTPS_PORT=443
+APP_ENV=production
+APP_URL=https://pulse.nobeladam.cn
+```
+
+数据库密码和演示令牌都使用随机值。
+
+`.env` 文件权限设置为：
+
+```text
+600
+```
+
+含义：
+
+- 只有文件所有者可以读写。
+- 其他用户不能查看。
+
+### 7. 生产资源限制
+
+新增文件：
+
+```text
+pulse/docker-compose.prod.yml
+pulse/docker/php/zz-pulse.conf
+```
+
+资源限制：
+
+| 服务 | 内存上限 |
+|---|---|
+| MySQL | 512 MiB |
+| PHP-FPM | 256 MiB |
+| Worker | 96 MiB |
+| Caddy | 64 MiB |
+
+PHP-FPM 配置：
+
+```ini
+pm = ondemand
+pm.max_children = 2
+pm.process_idle_timeout = 10s
+pm.max_requests = 500
+request_terminate_timeout = 30s
+```
+
+含义：
+
+- `ondemand`：没有请求时不常驻多个 PHP 进程。
+- `max_children = 2`：最多同时运行 2 个 PHP 子进程。
+- `process_idle_timeout`：空闲进程 10 秒后退出。
+- `max_requests`：一个进程处理 500 个请求后自动重启，降低内存泄漏影响。
+
+### 8. MySQL 首次初始化失败
+
+现象：
+
+```text
+dependency failed to start: container pulse-mysql-1 is unhealthy
+```
+
+日志中有关键错误：
+
+```text
+ERROR 2013 (HY000) at line 78172: Lost connection to MySQL server during query
+```
+
+原因：
+
+MySQL 首次初始化需要执行时区相关的大量 SQL，第一次启动时没有在健康检查等待时间内完成，初始化流程中断。
+
+结果：
+
+- `pulse` 数据库没有创建。
+- 应用用户没有创建。
+- root 密码仍然为空。
+
+修复过程：
+
+1. 先用空密码连接 root：
+
+```bash
+mysql -uroot --skip-password
+```
+
+2. 创建 `pulse` 数据库。
+3. 创建应用用户并授权。
+4. 导入 `schema.sql`。
+5. 导入 `seed.sql`。
+6. 最后把 root 密码设置成 `.env` 中生成的随机值。
+
+判断方法：
+
+遇到 MySQL 初始化失败时，不要只看容器是否重启，还要检查：
+
+```sql
+SELECT user, host FROM mysql.user;
+SHOW DATABASES;
+```
+
+如果应用数据库和用户不存在，说明初始化脚本没有完整执行。
+
+经验：
+
+- 数据卷一旦部分初始化，MySQL 不会自动重新执行完整初始化脚本。
+- 容器显示 `Up` 不代表业务数据库已经准备好。
+- 生产环境应先确认数据库结构完整，再启动依赖它的 PHP 和 Worker。
+
+### 9. Caddy 自动 HTTPS
+
+域名 A 记录正确解析后，Caddy 自动完成证书申请：
+
+```text
+identifier=pulse.nobeladam.cn
+challenge_type=tls-alpn-01
+certificate obtained successfully
+```
+
+不需要手动安装 certbot，也不需要配置证书文件。
+
+前提：
+
+- 域名已经解析到服务器 IP。
+- 防火墙开放 80 和 443。
+- Caddy 容器可以监听宿主机的 80 和 443。
+
+### 10. 验证结果
+
+从旧服务器访问公网域名：
+
+```bash
+curl -sS -i https://pulse.nobeladam.cn/api/health
+```
+
+结果：
+
+```text
+HTTP/2 200
+{"ok":true,"data":{"status":"ok",...}}
+```
+
+首页和状态接口也正常：
+
+- `/` 返回 200。
+- `/api/state` 返回生命体状态、真实指标、事件和 CSRF Token。
+- Worker 持续写入真实指标。
+
+容器内存情况：
+
+```text
+MySQL   约 361 MiB / 512 MiB
+PHP-FPM 约 11 MiB / 256 MiB
+Worker  约 10 MiB / 96 MiB
+Caddy   约 53 MiB / 64 MiB
+```
+
+### 11. 边缘平台自动部署要注意什么
+
+PULSE 不是纯静态站点，它的完整运行依赖：
+
+- PHP 处理 `/api/*`
+- MySQL 保存状态
+- Worker 持续更新
+
+边缘平台如果只构建并托管前端静态文件，会缺少 PHP、MySQL 和 Worker。
+
+如果以后要启用边缘平台自动部署前端：
+
+1. 边缘平台只构建 `frontend/`。
+2. 构建命令使用 `npm install && npm run build`。
+3. 必须配置 `/api/*` 反向代理回 `43.161.218.87`。
+4. 服务器继续运行 PHP、MySQL 和 Worker。
+
+当前不建议直接让边缘平台接管 `pulse.nobeladam.cn`，因为现有配置已经能完整服务前端和 API。
+
 ## 附录：常用命令
 
 启动：

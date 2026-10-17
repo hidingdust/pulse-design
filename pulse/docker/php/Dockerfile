@@ -12,5 +12,6 @@ RUN apt-get update \
 WORKDIR /srv
 
 COPY docker/php/php.ini /usr/local/etc/php/conf.d/zz-pulse.ini
+COPY docker/php/zz-pulse.conf /usr/local/etc/php-fpm.d/zz-pulse.conf
 COPY . /srv
 

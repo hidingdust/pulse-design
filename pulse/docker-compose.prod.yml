@@ -1,0 +1,22 @@
+services:
+  caddy:
+    mem_limit: 64m
+    memswap_limit: 64m
+
+  php:
+    mem_limit: 256m
+    memswap_limit: 256m
+
+  worker:
+    mem_limit: 96m
+    memswap_limit: 96m
+
+  mysql:
+    mem_limit: 512m
+    memswap_limit: 512m
+    command:
+      - "--character-set-server=utf8mb4"
+      - "--collation-server=utf8mb4_unicode_ci"
+      - "--default-time-zone=+08:00"
+      - "--innodb-buffer-pool-size=128M"
+      - "--max-connections=20"
