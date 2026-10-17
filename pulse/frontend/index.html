@@ -35,6 +35,33 @@
         </div>
       </header>
 
+      <section class="server-metrics-strip" aria-label="服务器指标">
+        <div>
+          <span title="Linux 1 分钟平均负载，约等于正在使用或等待 CPU 的任务数">CPU 负载</span>
+          <strong id="cpu-metric-value">--</strong>
+        </div>
+        <div>
+          <span title="当前内存使用量占服务器总内存的百分比">内存占用</span>
+          <strong id="memory-metric-value">--</strong>
+        </div>
+        <div>
+          <span title="当前磁盘使用量占服务器总磁盘的百分比">磁盘占用</span>
+          <strong id="disk-metric-value">--</strong>
+        </div>
+        <div>
+          <span title="最近 2 分钟内访问过的匿名访客数">在线访客</span>
+          <strong id="online-metric-value">--</strong>
+        </div>
+        <div>
+          <span title="当前展示的是服务器真实指标还是演示模式">数据来源</span>
+          <strong id="source-metric-value">--</strong>
+        </div>
+        <div>
+          <span title="最近一次 Worker 心跳采样的时间">采样时间</span>
+          <strong id="metric-time-value">--</strong>
+        </div>
+      </section>
+
       <aside class="panel vitals">
         <div class="panel-head">
           <h2>生命体征</h2>
@@ -56,33 +83,6 @@
         </div>
         <div class="meter"><i id="trust-bar"></i></div>
         <p id="vital-hint" class="hint">它正在感受这台服务器的呼吸。</p>
-
-        <dl class="server-metrics" aria-label="服务器指标">
-          <div>
-            <dt title="Linux 1 分钟平均负载，约等于正在使用或等待 CPU 的任务数">CPU 负载</dt>
-            <dd id="cpu-metric-value">--</dd>
-          </div>
-          <div>
-            <dt title="当前内存使用量占服务器总内存的百分比">内存占用</dt>
-            <dd id="memory-metric-value">--</dd>
-          </div>
-          <div>
-            <dt title="当前磁盘使用量占服务器总磁盘的百分比">磁盘占用</dt>
-            <dd id="disk-metric-value">--</dd>
-          </div>
-          <div>
-            <dt title="最近 2 分钟内访问过的匿名访客数">在线访客</dt>
-            <dd id="online-metric-value">--</dd>
-          </div>
-          <div>
-            <dt title="当前展示的是服务器真实指标还是演示模式">数据来源</dt>
-            <dd id="source-metric-value">--</dd>
-          </div>
-          <div>
-            <dt title="最近一次 Worker 心跳采样的时间">采样时间</dt>
-            <dd id="metric-time-value">--</dd>
-          </div>
-        </dl>
       </aside>
 
       <aside class="panel actions">
