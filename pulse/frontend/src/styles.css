@@ -288,10 +288,10 @@ input:focus-visible {
 
 .server-metrics {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px 10px;
-  margin: 16px 0 0;
-  padding-top: 14px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px 8px;
+  margin: 12px 0 0;
+  padding-top: 10px;
   border-top: 1px solid var(--line);
 }
 
@@ -301,15 +301,15 @@ input:focus-visible {
 
 .server-metrics dt {
   color: var(--muted);
-  font-size: 11px;
+  font-size: 10px;
   line-height: 1.4;
 }
 
 .server-metrics dd {
-  margin: 2px 0 0;
+  margin: 1px 0 0;
   color: var(--ink);
   font-family: "IBM Plex Mono", Consolas, monospace;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 700;
 }
 
