@@ -1488,6 +1488,42 @@ curl -sS https://pulse.nobeladam.cn/api/health
 - 只有最新一次成功的部署会作为生产版本。
 - Edge Function 的静态资源和函数路由存在优先级，必要时需要通过 `edgeone.json` 的 rewrites 显式声明 SPA fallback。
 
+### 14. Edge Function 转发导致 gzip 双重编码
+
+现象：
+
+浏览器访问 `/api/*` 时提示：
+
+```text
+服务器没有返回有效数据。
+```
+
+用普通 `curl` 请求却正常，用 `curl --compressed` 会报：
+
+```text
+Error while processing content unencoding: incorrect header check
+```
+
+原因：
+
+1. 后端 Caddy 先对 JSON 做了 gzip 压缩。
+2. Edge Function 把已经解压后的内容继续返回。
+3. EdgeOne 又在边缘层再次压缩。
+4. 响应头里仍带有旧的 `Content-Encoding: gzip`。
+5. 浏览器和带 `--compressed` 的 curl 都按 gzip 解码，但内容已经不是有效 gzip。
+
+解决：
+
+- 在 `api-pulse` 的 Caddy 站点中删除 `encode gzip`，让后端返回未压缩 JSON。
+- 在 Edge Function 中删除旧响应里的 `content-encoding` 和 `content-length`。
+- Edge Function 使用 `response.arrayBuffer()` 读取完整响应，再重新创建 `Response`，避免直接透传流。
+
+经验：
+
+- 中间代理层不要同时保留上游的压缩头。
+- 遇到“curl 正常，但浏览器解析失败”的问题，先分别用 `curl` 和 `curl --compressed` 对比。
+- 压缩问题不一定出现在前端代码，可能出现在 Caddy 和 Edge Function 的交接处。
+
 ## 附录：常用命令
 
 启动：
