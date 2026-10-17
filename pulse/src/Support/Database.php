@@ -16,7 +16,12 @@ final class Database
     public static function pdo(): PDO
     {
         if (self::$pdo instanceof PDO) {
-            return self::$pdo;
+            try {
+                self::$pdo->query('SELECT 1');
+                return self::$pdo;
+            } catch (PDOException) {
+                self::$pdo = null;
+            }
         }
 
         $host = Env::get('DB_HOST', 'mysql');
@@ -45,6 +50,11 @@ final class Database
         }
 
         return self::$pdo;
+    }
+
+    public static function reset(): void
+    {
+        self::$pdo = null;
     }
 }
 
