@@ -20,6 +20,32 @@
 	}
 }
 
+api-pulse.nobeladam.cn {
+	encode gzip
+	root * /srv/public
+
+	@cors {
+		header Origin https://pulse.nobeladam.cn
+	}
+	header @cors {
+		Access-Control-Allow-Origin https://pulse.nobeladam.cn
+		Access-Control-Allow-Credentials true
+		Access-Control-Allow-Headers Content-Type, X-CSRF-Token, X-Demo-Token
+		Access-Control-Allow-Methods GET, POST, OPTIONS
+		Vary Origin
+	}
+
+	@api path /api/*
+	handle @api {
+		try_files {path} /index.php
+		php_fastcgi php:9000
+	}
+
+	handle {
+		respond "Not Found" 404
+	}
+}
+
 :8081 {
 	encode gzip
 	root * /srv/public
