@@ -1576,6 +1576,36 @@ Error while processing content unencoding: incorrect header check
 - 修改布局后，用 `getBoundingClientRect()` 量四个面板的 `top` / `bottom`，只要出现“上面的 bottom 大于下面的 top”就是重叠，比肉眼判断可靠。
 - 浮动按钮不要用固定坐标硬摆，尽量放进已有的导航栏或面板里。
 
+### 17. Worker 掉线后卡死，模拟按钮没反应
+
+现象：
+
+- 点“状态实验室”里的“现场模拟状态”按钮，宠物外观不变化。
+- 页面顶部“采样时间”一直停在几个小时前。
+
+排查：
+
+- `POST /api/demo/public-scenario` 实际成功，事件里能看到“演示模式切换为……”。
+- 但 `/api/state` 返回的 `metrics.created_at` 停在 3 小时前，`state.status` 一直是 `calm`。
+- 服务器上 `docker compose logs worker` 一直报 `MySQL server has gone away`。
+
+原因：
+
+- Worker 是常驻 CLI 进程，`Database::pdo()` 把 PDO 连接缓存在静态变量里，不会主动重连。
+- 上午 MySQL 容器重建后，Worker 手里的旧连接失效，之后每个 5 秒循环都失败。
+- 模拟场景只是写进 `demo.json`，真正把它换算成宠物 `status` 的是 Worker；Worker 卡住，宠物自然不动。
+
+解决：
+
+- 立即恢复：`docker compose restart worker`。
+- 根因修复：给 `Database::pdo()` 增加“用 `SELECT 1` 探活，失败就清掉缓存连接并重建”，让 Worker 遇到 MySQL 掉线能自愈。
+
+经验：
+
+- 常驻进程（Worker）和短请求（PHP-FPM）对数据库连接的处理不一样，前者必须考虑断线重连。
+- 排查“按钮没反应”不要只看前端，先看后端日志和数据的 `created_at` 是否在更新。
+- 模拟/演示这类“写入配置再等后台生效”的功能，要确认后台消费者（Worker）确实在跑。
+
 ## 附录：常用命令
 
 启动：
