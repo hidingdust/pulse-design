@@ -23,6 +23,21 @@
           <span class="brand-name">PULSE</span>
         </div>
         <div class="topbar-status">
+          <button id="report-toggle" class="report-toggle" type="button" title="查看它的体检报告与成长阶段">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+            </svg>
+            <span>体检报告</span>
+          </button>
+          <button id="state-lab-toggle" class="state-lab-toggle" type="button" title="模拟服务器状态，预览 PULSE 的变化">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M14 3v6l4 8H6l4-8V3" />
+              <path d="M10 2h4" />
+              <path d="M7 18h10" />
+              <path d="M8 22h8" />
+            </svg>
+            <span>状态实验室</span>
+          </button>
           <span id="source-label" class="status-chip">实时数据</span>
           <span id="status-label" class="status-chip status-chip-strong">平静</span>
           <button id="demo-toggle" class="icon-button" type="button" aria-label="打开演示面板">
@@ -148,23 +163,6 @@
           <span><i class="legend-dot legend-dot-energy"></i>能量</span>
         </div>
       </section>
-
-      <button id="report-toggle" class="report-toggle" type="button">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-        </svg>
-        <span>体检报告</span>
-      </button>
-
-      <button id="state-lab-toggle" class="state-lab-toggle" type="button">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M14 3v6l4 8H6l4-8V3" />
-          <path d="M10 2h4" />
-          <path d="M7 18h10" />
-          <path d="M8 22h8" />
-        </svg>
-        <span>状态实验室</span>
-      </button>
 
       <aside id="report-drawer" class="drawer report-drawer" aria-hidden="true">
         <div class="drawer-head">

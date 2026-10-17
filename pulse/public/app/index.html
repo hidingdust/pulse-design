@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#fff8f2" />
     <title>PULSE</title>
-    <script type="module" crossorigin src="/app/assets/index-DIwVBlUJ.js"></script>
-    <link rel="stylesheet" crossorigin href="/app/assets/index-Pz7fHQyO.css">
+    <script type="module" crossorigin src="/app/assets/index-C6_hqCM2.js"></script>
+    <link rel="stylesheet" crossorigin href="/app/assets/index-D86ZblW1.css">
   </head>
   <body>
     <div id="brand-splash" class="brand-splash" role="status" aria-label="NobelAdam's Work Made with AI">
@@ -25,6 +25,21 @@
           <span class="brand-name">PULSE</span>
         </div>
         <div class="topbar-status">
+          <button id="report-toggle" class="report-toggle" type="button" title="查看它的体检报告与成长阶段">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+            </svg>
+            <span>体检报告</span>
+          </button>
+          <button id="state-lab-toggle" class="state-lab-toggle" type="button" title="模拟服务器状态，预览 PULSE 的变化">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M14 3v6l4 8H6l4-8V3" />
+              <path d="M10 2h4" />
+              <path d="M7 18h10" />
+              <path d="M8 22h8" />
+            </svg>
+            <span>状态实验室</span>
+          </button>
           <span id="source-label" class="status-chip">实时数据</span>
           <span id="status-label" class="status-chip status-chip-strong">平静</span>
           <button id="demo-toggle" class="icon-button" type="button" aria-label="打开演示面板">
@@ -36,6 +51,33 @@
           </button>
         </div>
       </header>
+
+      <section class="server-metrics-strip" aria-label="服务器指标">
+        <div>
+          <span title="Linux 1 分钟平均负载，约等于正在使用或等待 CPU 的任务数">CPU 负载</span>
+          <strong id="cpu-metric-value">--</strong>
+        </div>
+        <div>
+          <span title="当前内存使用量占服务器总内存的百分比">内存占用</span>
+          <strong id="memory-metric-value">--</strong>
+        </div>
+        <div>
+          <span title="当前磁盘使用量占服务器总磁盘的百分比">磁盘占用</span>
+          <strong id="disk-metric-value">--</strong>
+        </div>
+        <div>
+          <span title="最近 2 分钟内访问过的匿名访客数">在线访客</span>
+          <strong id="online-metric-value">--</strong>
+        </div>
+        <div>
+          <span title="当前展示的是服务器真实指标还是演示模式">数据来源</span>
+          <strong id="source-metric-value">--</strong>
+        </div>
+        <div>
+          <span title="最近一次 Worker 心跳采样的时间">采样时间</span>
+          <strong id="metric-time-value">--</strong>
+        </div>
+      </section>
 
       <aside class="panel vitals">
         <div class="panel-head">
@@ -118,14 +160,11 @@
           <span>过去 24 小时</span>
         </div>
         <div id="timeline-chart" class="timeline-chart"></div>
+        <div class="chart-legend" aria-label="时间轴图例">
+          <span><i class="legend-dot legend-dot-mood"></i>心情</span>
+          <span><i class="legend-dot legend-dot-energy"></i>能量</span>
+        </div>
       </section>
-
-      <button id="report-toggle" class="report-toggle" type="button">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-        </svg>
-        <span>体检报告</span>
-      </button>
 
       <aside id="report-drawer" class="drawer report-drawer" aria-hidden="true">
         <div class="drawer-head">
@@ -160,6 +199,39 @@
             <dd id="report-source">--</dd>
           </div>
         </dl>
+      </aside>
+
+      <aside id="state-lab-drawer" class="drawer state-lab-drawer" aria-hidden="true">
+        <div class="drawer-head">
+          <h2>状态实验室</h2>
+          <button class="icon-button drawer-close" type="button" aria-label="关闭状态实验室">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <section class="state-lab-intro">
+          <h3>PULSE 如何感知服务器</h3>
+          <ol>
+            <li>CPU 负载高时，它变得暴躁，身体出现红色脉冲。</li>
+            <li>内存占用高时，它变得迟钝，动作变慢。</li>
+            <li>磁盘快满时，它开始焦虑，画面出现碎片。</li>
+            <li>访客多时，它变得兴奋，颜色更亮。</li>
+            <li>长时间没人访问时，它会睡着。</li>
+            <li>点击“喂养”“抚摸”“降温”“逗它”，它会即时反馈。</li>
+            <li>所有人看到的是同一只生命体，后面的用户能看到前面用户留下的影响。</li>
+            <li>页面底部有时间轴，可以看它过去一天的情绪变化。</li>
+            <li>可以查看它的“体检报告”和“成长阶段”。</li>
+          </ol>
+        </section>
+
+        <section class="state-lab-controls">
+          <h3>现场模拟状态</h3>
+          <p id="public-scenario-message" class="hint">点击按钮可让 PULSE 临时展示对应状态。</p>
+          <div id="public-scenario-list" class="public-scenario-list"></div>
+        </section>
       </aside>
 
       <aside id="demo-panel" class="drawer demo-panel" aria-hidden="true">
