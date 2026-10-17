@@ -83,3 +83,17 @@ export function setDemoScenario(token, scenario, ttlSeconds = 600) {
   });
 }
 
+export function setPublicDemoScenario(scenario, ttlSeconds = 600) {
+  return request('/api/demo/public-scenario', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': csrfToken,
+    },
+    body: JSON.stringify({
+      scenario,
+      ttl_seconds: ttlSeconds,
+    }),
+  });
+}
+

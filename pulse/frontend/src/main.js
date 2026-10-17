@@ -10,6 +10,7 @@ import {
 import { DemoPanel } from './components/DemoPanel.js';
 import { Hud } from './components/Hud.js';
 import { ReportDrawer } from './components/ReportDrawer.js';
+import { StateLab } from './components/StateLab.js';
 import { PulseScene } from './three/PulseScene.js';
 
 const sceneElement = document.querySelector('#scene');
@@ -20,6 +21,11 @@ const hud = new Hud();
 const reportDrawer = new ReportDrawer({
   root: document.querySelector('#report-drawer'),
   toggle: document.querySelector('#report-toggle'),
+});
+const stateLab = new StateLab({
+  root: document.querySelector('#state-lab-drawer'),
+  toggle: document.querySelector('#state-lab-toggle'),
+  onChanged: () => refresh({ timeline: true, report: true }),
 });
 const demoPanel = new DemoPanel({
   root: document.querySelector('#demo-panel'),

@@ -156,6 +156,16 @@
         <span>体检报告</span>
       </button>
 
+      <button id="state-lab-toggle" class="state-lab-toggle" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M14 3v6l4 8H6l4-8V3" />
+          <path d="M10 2h4" />
+          <path d="M7 18h10" />
+          <path d="M8 22h8" />
+        </svg>
+        <span>状态实验室</span>
+      </button>
+
       <aside id="report-drawer" class="drawer report-drawer" aria-hidden="true">
         <div class="drawer-head">
           <h2>体检报告</h2>
@@ -189,6 +199,39 @@
             <dd id="report-source">--</dd>
           </div>
         </dl>
+      </aside>
+
+      <aside id="state-lab-drawer" class="drawer state-lab-drawer" aria-hidden="true">
+        <div class="drawer-head">
+          <h2>状态实验室</h2>
+          <button class="icon-button drawer-close" type="button" aria-label="关闭状态实验室">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <section class="state-lab-intro">
+          <h3>PULSE 如何感知服务器</h3>
+          <ol>
+            <li>CPU 负载高时，它变得暴躁，身体出现红色脉冲。</li>
+            <li>内存占用高时，它变得迟钝，动作变慢。</li>
+            <li>磁盘快满时，它开始焦虑，画面出现碎片。</li>
+            <li>访客多时，它变得兴奋，颜色更亮。</li>
+            <li>长时间没人访问时，它会睡着。</li>
+            <li>点击“喂养”“抚摸”“降温”“逗它”，它会即时反馈。</li>
+            <li>所有人看到的是同一只生命体，后面的用户能看到前面用户留下的影响。</li>
+            <li>页面底部有时间轴，可以看它过去一天的情绪变化。</li>
+            <li>可以查看它的“体检报告”和“成长阶段”。</li>
+          </ol>
+        </section>
+
+        <section class="state-lab-controls">
+          <h3>现场模拟状态</h3>
+          <p id="public-scenario-message" class="hint">点击按钮可让 PULSE 临时展示对应状态。</p>
+          <div id="public-scenario-list" class="public-scenario-list"></div>
+        </section>
       </aside>
 
       <aside id="demo-panel" class="drawer demo-panel" aria-hidden="true">

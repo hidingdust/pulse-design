@@ -75,6 +75,19 @@ final class ApiController
                 Http::success($this->pulseService->setDemoScenario($scenario, $ttlSeconds));
             }
 
+            if ($method === 'POST' && $path === '/api/demo/public-scenario') {
+                Http::requireCsrf();
+                $input = Http::input();
+                $scenario = (string) ($input['scenario'] ?? '');
+                $ttlSeconds = (int) ($input['ttl_seconds'] ?? 600);
+
+                if ($scenario === 'none') {
+                    Http::success($this->pulseService->clearDemoScenario());
+                }
+
+                Http::success($this->pulseService->setDemoScenario($scenario, $ttlSeconds));
+            }
+
             throw new ApiException(404, 'NOT_FOUND', '接口不存在。');
         } catch (ApiException $exception) {
             Http::error($exception->errorCode, $exception->getMessage(), $exception->status);
