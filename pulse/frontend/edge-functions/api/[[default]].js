@@ -1,4 +1,4 @@
-const ORIGIN = 'http://43.161.218.87:8081';
+const ORIGIN = 'https://api-pulse.nobeladam.cn';
 
 export default async function onRequest(context) {
   const request = context.request;
@@ -6,7 +6,7 @@ export default async function onRequest(context) {
   const target = new URL(`${url.pathname}${url.search}`, ORIGIN);
   const headers = new Headers(request.headers);
 
-  headers.set('Host', '43.161.218.87:8081');
+  headers.set('Host', 'api-pulse.nobeladam.cn');
   headers.set('X-Forwarded-Proto', 'https');
   headers.delete('content-length');
 
