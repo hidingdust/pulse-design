@@ -23,6 +23,8 @@ export default async function onRequest(context) {
   });
 
   const responseHeaders = new Headers(response.headers);
+  responseHeaders.delete('content-encoding');
+  responseHeaders.delete('content-length');
   responseHeaders.set('Access-Control-Allow-Origin', '*');
 
   return new Response(response.body, {
