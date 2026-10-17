@@ -1434,6 +1434,60 @@ NobelAdam' Work Made with AI
 - 即使网络慢，只要页面加载完成就会播放。
 - 逻辑简单，容易理解。
 
+### 13. EdgeOne Makers 免费接入 /api
+
+PULSE 最终使用 Makers 免费版托管前端，并通过 Edge Function 把 `/api/*` 回源到自己的 PHP 服务器。
+
+关键结构：
+
+```text
+pulse/frontend/
+├── src/
+├── edge-functions/
+│   └── api/
+│       └── [[default]].js
+└── vite.config.edge.js
+```
+
+注意点：
+
+- Makers 项目的构建根目录是 `pulse/frontend`。
+- Edge Function 必须放在构建根目录下的 `edge-functions/` 目录中，而不是仓库根目录。
+- Edge Function 的 `[[default]].js` 可以匹配任意层级的 `/api/*`。
+- 前端继续使用相对路径 `/api`，不需要改成独立 API 域名。
+
+Edge Function 负责：
+
+1. 接收 `/api/*` 请求。
+2. 把请求转发到 `https://api-pulse.nobeladam.cn`。
+3. 保留原请求方法、请求体和路径。
+4. 把响应原样返回给浏览器。
+
+服务器侧需要：
+
+- `api-pulse.nobeladam.cn` 指向服务器。
+- Caddy 为这个域名配置 PHP-FPM。
+- Caddy 必须设置 `root * /srv/public`，否则 PHP-FPM 会返回空 200。
+- Caddy 返回正确的 CORS 头。
+
+验证：
+
+```bash
+curl -sS https://pulse.nobeladam.cn/api/health
+```
+
+应返回：
+
+```json
+{"ok":true,"data":{"status":"ok"}}
+```
+
+经验：
+
+- Makers 每次 Git push 都会自动触发一次新部署，所以看到多个部署记录是正常的。
+- 只有最新一次成功的部署会作为生产版本。
+- Edge Function 的静态资源和函数路由存在优先级，必要时需要通过 `edgeone.json` 的 rewrites 显式声明 SPA fallback。
+
 ## 附录：常用命令
 
 启动：
