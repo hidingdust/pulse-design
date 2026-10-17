@@ -19,3 +19,25 @@
 		file_server
 	}
 }
+
+:8081 {
+	encode gzip
+	root * /srv/public
+
+	header {
+		X-Content-Type-Options nosniff
+		X-Frame-Options DENY
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+
+	@api path /api/*
+	handle @api {
+		try_files {path} /index.php
+		php_fastcgi php:9000
+	}
+
+	handle {
+		try_files {path} /app/index.html
+		file_server
+	}
+}
