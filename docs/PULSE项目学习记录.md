@@ -1388,6 +1388,52 @@ PULSE 不是纯静态站点，它的完整运行依赖：
 
 当前不建议直接让边缘平台接管 `pulse.nobeladam.cn`，因为现有配置已经能完整服务前端和 API。
 
+### 12. 品牌弹窗
+
+需求：
+
+每次访问或刷新页面时，先短暂显示：
+
+```text
+NobelAdam' Work Made with AI
+```
+
+实现方式：
+
+在 `frontend/index.html` 中加入一个固定在页面顶层的元素：
+
+```html
+<div id="brand-splash" class="brand-splash" role="status">
+  <span>NobelAdam' Work Made with AI</span>
+</div>
+```
+
+在 CSS 中使用动画：
+
+```css
+.brand-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  animation: brand-splash 2.2s ease forwards;
+}
+```
+
+关键点：
+
+- 每次刷新都会重新创建 DOM 元素，所以动画会自动重放。
+- 不需要使用 `localStorage` 或 `sessionStorage` 判断是否第一次访问。
+- `pointer-events: none` 表示弹窗虽然显示在页面上方，但不会挡住后面的点击操作。
+- `forwards` 表示动画结束后保持最后一帧，也就是保持透明和隐藏状态。
+- 使用媒体查询缩小移动端字体，避免文字溢出。
+
+这样做的好处：
+
+- 不依赖 JavaScript 定时器。
+- 即使网络慢，只要页面加载完成就会播放。
+- 逻辑简单，容易理解。
+
 ## 附录：常用命令
 
 启动：
