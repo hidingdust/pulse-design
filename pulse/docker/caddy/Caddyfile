@@ -21,7 +21,6 @@
 }
 
 api-pulse.nobeladam.cn {
-	encode gzip
 	root * /srv/public
 
 	@cors {
