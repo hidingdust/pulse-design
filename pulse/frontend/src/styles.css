@@ -829,7 +829,6 @@ input:focus-visible {
 @media (max-height: 780px) {
   .vitals,
   .actions {
-    top: 118px;
     padding: 12px;
   }
 
@@ -874,6 +873,13 @@ input:focus-visible {
 
   .timeline-chart .empty {
     min-height: 96px;
+  }
+}
+
+@media (max-height: 780px) and (min-width: 901px) {
+  .vitals,
+  .actions {
+    top: 118px;
   }
 }
 
