@@ -1610,6 +1610,32 @@ Error while processing content unencoding: incorrect header check
 - 排查“按钮没反应”不要只看前端，先看后端日志和数据的 `created_at` 是否在更新。
 - 模拟/演示这类“写入配置再等后台生效”的功能，要确认后台消费者（Worker）确实在跑。
 
+### 18. 移动端 Safari：“互动”后两个按钮被“最近事件”遮挡
+
+现象：
+
+- 在 iPhone Safari 上打开线上站点，“互动”面板的四个按钮（喂养/抚摸/降温/逗它）只能看到前两个，后两个被“最近事件”面板盖住。
+- 电脑端正常，仅移动端出现。
+
+原因：
+
+- 移动端媒体查询 `@media (max-width: 900px)` 会把所有 `.panel` 从 `position: fixed` 改为 `position: relative`，让面板按文档流纵向排列。
+- 但为“桌面矮窗口”设计的 `@media (max-height: 780px)` 里写了 `.vitals, .actions { top: 118px; }`。
+- 两条媒体查询在手机上会同时生效；对 `position: relative` 的元素，`top: 118px` 不再是相对视口的固定定位，而是把“互动”面板整体向下错位 118px，压进后面“最近事件”的区域，后两个按钮因此被盖住。
+- Safari 展开地址栏/工具栏时视觉视口高度会低于 780px，正好触发该条规则；电脑窗口通常不受影响。
+
+解决：
+
+- 把 `top: 118px` 从通用的 `@media (max-height: 780px)` 中移除。
+- 新增 `@media (max-height: 780px) and (min-width: 901px)`，只在“桌面 + 矮窗口”下保留这个上移量，避免污染移动端的相对定位布局。
+- 重新构建并提交 `pulse/public/app`，由 Makers 自动部署前端后生效。
+
+经验：
+
+- 写 `position` 相关媒体查询时，`top/left/right/bottom` 的语义会随 `position` 从 `fixed` 变成 `relative` 而改变：前者相对视口，后者相对自身原位置。
+- 调试“电脑正常、手机遮挡”的固定定位面板时，量 `getBoundingClientRect()` 的 top/bottom 是否交叉，比肉眼判断更快；根因常在“桌面矮窗口”和“移动端窄窗口”两套媒体查询的叠加。
+- 移动端 Safari 的 `100vh` 和 `@media (max-height)` 会随工具栏展开/收起变化，验证时要分别测展开和收起两种视口高度。
+
 ## 附录：常用命令
 
 启动：
